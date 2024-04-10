@@ -1,0 +1,4 @@
+En la carpeta hay 
+un .h con la declaracion de las dos valodaciones de enteros
+un .c con la implementacion del .h
+y un main.c con un ejemplo de uso
