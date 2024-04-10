@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "tipo_elemento.h"
 #include "lista.h"
 static const int TAMANIO_MAXIMO = 100;
@@ -101,10 +102,11 @@ TipoElemento l_recuperar (Lista lista, int pos){
 }
 
 void l_mostrar (Lista lista){
-    printf("mostrar el contenido de la lista:\n");
+    printf("mostrar el contenido de la lista:");
     for(int i=0; i<lista->cantidad;i++){
-        printf("%i\n",lista->valores[i]->clave);
+        printf("%i ",lista->valores[i]->clave);
     }
+    printf("\n");
 }
 
 
