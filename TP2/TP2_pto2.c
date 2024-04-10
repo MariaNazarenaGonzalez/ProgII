@@ -7,7 +7,7 @@ d. Que retorne los promedios de ambas listas.
 e. Que retorne el valor máximo de ambas listas y su posición ordinal.*/
 
 
-#include "listas.h"
+#include "lista.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
