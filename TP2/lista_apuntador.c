@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "tipo_elemento.h"
 #include "lista.h"
 static const int TAMANIO_MAXIMO = 100;
@@ -41,22 +42,20 @@ int l_longitud (Lista lista){
 
 bool l_agregar (Lista lista, TipoElemento elemento){
     if(l_es_llena(lista)){return false;}
-    else{
-        struct Nodorep *n_nuevo=(struct Nodorep *)malloc(sizeof(struct Nodorep));
-        n_nuevo->Dato=elemento;
-        n_nuevo->N_sig=NULL;
-        if(lista->N_prim==NULL){
-            lista->N_prim=n_nuevo;
-        }else{
-            struct Nodorep * n_temp=lista->N_prim;
-            while(n_temp->N_sig!=NULL){
-                n_temp=n_temp->N_sig;
-            }
-            n_temp->N_sig=n_nuevo;
+    struct Nodorep *n_nuevo=(struct Nodorep *)malloc(sizeof(struct Nodorep));
+    n_nuevo->Dato=elemento;
+    n_nuevo->N_sig=NULL;
+    if(lista->N_prim==NULL){
+        lista->N_prim=n_nuevo;
+    }else{
+        struct Nodorep * n_temp=lista->N_prim;
+        while(n_temp->N_sig!=NULL){
+            n_temp=n_temp->N_sig;
         }
-        lista->cantidad++;
-        return true;
+        n_temp->N_sig=n_nuevo;
     }
+    lista->cantidad++;
+    return true;
 }
 
 bool l_borrar (Lista lista, int clave){
@@ -86,10 +85,23 @@ bool l_borrar (Lista lista, int clave){
     return borre;
 }
 
-TipoElemento l_buscar (Lista lista, int clave);
+TipoElemento l_buscar (Lista lista, int clave){
+    struct Nodorep *actual = lista->N_prim;
+    while (actual != NULL) {
+        if (actual->Dato->clave == clave) {
+            return actual->Dato;
+        }
+        actual = actual->N_sig;
+    }
+    return NULL;
+}
 
 bool l_insertar (Lista lista, TipoElemento elemento, int pos){
     if(l_es_llena(lista)){return false;}
+    if (pos > l_longitud(lista)) {
+        l_agregar(lista, elemento);
+        return false;
+    }
     struct Nodorep *n_nuevo=(struct Nodorep *)malloc(sizeof(struct Nodorep));
     n_nuevo->Dato=elemento;
     n_nuevo->N_sig=NULL;
@@ -105,47 +117,54 @@ bool l_insertar (Lista lista, TipoElemento elemento, int pos){
         n_nuevo->N_sig=n_temp->N_sig;
         n_temp->N_sig=n_nuevo;
     }
-    lista->cantidad++;return true;
+    lista->cantidad++;
+    return true;
 }
 
 bool l_eliminar (Lista lista, int pos){
     if(l_es_vacia(lista)){return false;}
-        struct Nodorep * n_actual=lista->N_prim;
+    struct Nodorep * n_actual=lista->N_prim;
+    bool borre = false;
     if(1<=pos&&pos<=l_longitud(lista)){
         if(pos==1){
-        lista->N_prim= n_actual->N_sig;
-        free(n_actual);  
-        }
-        else{
-            for(int i=1; i<pos-1;i++){
+            lista->N_prim= n_actual->N_sig;
+            free(n_actual);
+            borre = true;  
+        }else{
+            for(int i=0; i<pos-2;i++){
                 n_actual=n_actual->N_sig;
             }
             struct Nodorep * n_temp=n_actual->N_sig;
             n_actual->N_sig=n_temp->N_sig;
             free(n_temp);
+            borre = true;  
         }
+        lista->cantidad--;
     }
-    lista->cantidad--;return true;
+    return borre;
 }
 
 TipoElemento l_recuperar (Lista lista, int pos){
-    int i=1;
-    struct Nodorep * n_temp=lista->N_prim;
-    while(n_temp->N_sig!=NULL&& i<=pos){
-        n_temp=n_temp->N_sig;
-        i++;
+    if (pos > l_longitud(lista)) {
+        return NULL;
     }
-    return n_temp->Dato;
+    // Si existe lo retorno
+    struct Nodorep *temp2 = lista->N_prim;
+    for (int i = 0; i < pos - 1; i++) {
+        temp2 = temp2->N_sig;
+    }
+    return temp2->Dato;
 }
 
 
 void l_mostrar (Lista lista){
-    struct Nodorep * n_temp=lista->N_prim;
-    printf("mostrar el contenido de la lista:\n");
-    while(n_temp->N_sig!=NULL){
-        prinf("%i\n",n_temp->Dato->clave);
-        n_temp=n_temp->N_sig;
+    struct Nodorep *temp2 = lista->N_prim;
+    printf("Contenido de la lista: ");
+    while (temp2 != NULL) {
+        printf("%d ", temp2->Dato->clave);
+        temp2 = temp2->N_sig;
     }
+    printf("\n");
 }
 
 
@@ -158,7 +177,7 @@ Iterador iterador (Lista lista){
 }
 
 bool hay_siguiente (Iterador iterador){
-    return (iterador->N_actual->N_sig!=NULL);
+    return (iterador->N_actual!=NULL);
 }
 
 TipoElemento siguiente (Iterador iterador){
