@@ -17,9 +17,7 @@ int main(){
     p_mostrar(pila);
     printf("ingrese posicion de la pila para colocar:\n");
     int pos=entero_entre(1,10);
-    printf("ingrese elemento para colocar en la pila:\n");
-    clave=entero_entre(0,1000);
-    p_ej2_colocarelemento(pila,pos,clave);
+    p_ej2_colocarelemento(pila,pos);
     p_mostrar(pila);
     printf("ingrese elemento para eliminar de la pila:\n");
     clave=entero_entre(0,1000);
