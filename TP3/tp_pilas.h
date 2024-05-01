@@ -2,7 +2,7 @@
 #define TP_PILAS_H
 
 #include <stdbool.h>
-#include "pilas.h"
+#include ".\pilas.h"
 
 /**
     2.	Dada una pila cargada con valores al azar realizar los siguientes ejercicios:
@@ -14,8 +14,7 @@ bool p_ej2_existeclave(Pila p, int clave);
 
 //  b.	Colocar en una posición ordinal determinada, recibida por parámetro, un nuevo elemento (Insertar un elemento nuevo).
 // Retorna la nueva pila con el nuevo elemento, caso contrario la pila original recibida.
-Pila p_ej2_colocarelemento(Pila p, int posicionordinal,int clave);
-
+Pila p_ej2_colocarelemento(Pila p, int posicionordinal);
 //  c.	Eliminar de una pila un elemento dado (primera ocurrencia encontrada por la clave).
 // retorna la nueva pila sin la clave, si la encuentra, sino retorna la misma pila que recibio.
 Pila p_ej2_eliminarclave(Pila p, int clave);
@@ -72,7 +71,7 @@ Pila p_ej6_eliminarclave(Pila p, int clave);
 	Determinar la complejidad algorítmica de la solución.
  */
 // retornar la nueva pila con las claves en comun de ambas Pilas recibidas por parametro.  Si no hay claves en comun retornar una pila vacia.
-Pila p_ej7_eliminarclave(Pila p1, Pila p2);
+Pila p_ej7_elementoscomunes(Pila p1, Pila p2);
 
 /**
 8.	Dada una pila con valores repetidos, se desea obtener una nueva pila con todos los valores (sin repetición) y la cantidad de veces que aparecen.
