@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include"validacion.h"
 /**
     2.	Dada una pila cargada con valores al azar realizar los siguientes ejercicios:
  */
@@ -31,10 +32,14 @@ bool p_ej2_existeclave(Pila p, int clave){
 
 //  b.	Colocar en una posición ordinal determinada, recibida por parámetro, un nuevo elemento (Insertar un elemento nuevo).
 // Retorna la nueva pila con el nuevo elemento, caso contrario la pila original recibida.
-Pila p_ej2_colocarelemento(Pila p, int posicionordinal,int clave){
+
+Pila p_ej2_colocarelemento(Pila p, int posicionordinal){
     int i=1;
+    int clave;
     Pila aux=p_crear();
     TipoElemento x;
+    printf("ingrese elemento para colocar en la pila:\n");
+    int clave=entero_entre(0,10000);
     while(p_es_vacia(p)!=true && i<posicionordinal){
         x=p_desapilar(p);
         p_apilar(aux,x);
@@ -279,7 +284,7 @@ Pila p_ej6_eliminarclave(Pila p, int clave){//O(n)->lineal
 	Determinar la complejidad algorítmica de la solución.
  */
 // retornar la nueva pila con las claves en comun de ambas Pilas recibidas por parametro.  Si no hay claves en comun retornar una pila vacia.
-Pila p_ej7_eliminarclave(Pila p1, Pila p2){//O(n^2)->cuadratica
+Pila  p_ej7_elementoscomunes(Pila p1, Pila p2){//O(n^2)->cuadratica
     Pila Pcont=p_crear();
     Pila aux1=p_crear();
     Pila aux2=p_crear();
