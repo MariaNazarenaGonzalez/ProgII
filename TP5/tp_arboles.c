@@ -11,8 +11,8 @@ void a_ej2_hojasR(NodoArbol N,Lista L){
         TipoElemento x=n_recuperar(N);
         l_agregar(L,x);
     }else{
-        a_ej2_hojasR(n_hijoderecho(N),L);
         a_ej2_hojasR(n_hijoizquierdo(N),L);
+        a_ej2_hojasR(n_hijoderecho(N),L);
     }
 }
 
@@ -28,8 +28,8 @@ void a_ej2_interioresR(NodoArbol N,Lista L,ArbolBinario a){
         TipoElemento x=n_recuperar(N);
         l_agregar(L,x);
     }else{
-        a_ej2_interioresR(n_hijoderecho(N),L,a);
         a_ej2_interioresR(n_hijoizquierdo(N),L,a);
+        a_ej2_interioresR(n_hijoderecho(N),L,a);
     }
 }
 
@@ -46,8 +46,8 @@ void  a_ej2_buscarR(NodoArbol N, int clave,Lista L){
         if(x->clave==clave){
             l_agregar(L,x);
         }
-        a_ej2_buscarR(n_hijoderecho(N),clave,L);
         a_ej2_buscarR(n_hijoizquierdo(N),clave,L);
+        a_ej2_buscarR(n_hijoderecho(N),clave,L);
     }
 }
 
@@ -102,8 +102,8 @@ void a_ej3_hijosR(NodoArbol NP, int clavepadre,Lista L){
             if(ND!=NULL){l_agregar(L,XD);}
             if(NI!=NULL){l_agregar(L,XI);}
         }else{
-            a_ej3_hijosR(n_hijoderecho(NP),clavepadre,L);
             a_ej3_hijosR(n_hijoizquierdo(NP),clavepadre,L); 
+            a_ej3_hijosR(n_hijoderecho(NP),clavepadre,L);
         }
     }
 }
@@ -126,8 +126,8 @@ void a_ej3_hermanoR(NodoArbol N, int clave,int* hermano){
                 *hermano= x1->clave;
             }
         }else{
-            return a_ej3_hermanoR(n_hijoderecho(N),clave,hermano);
             return a_ej3_hermanoR(n_hijoizquierdo(N),clave,hermano);
+            return a_ej3_hermanoR(n_hijoderecho(N),clave,hermano);
         }
     }
 }
@@ -182,8 +182,8 @@ void a_buscarR(NodoArbol N, int clave,NodoArbol* retorna){
         if(x->clave==clave){
             *retorna =N;
         }else{
-            a_buscarR(n_hijoderecho(N),clave,retorna);
             a_buscarR(n_hijoizquierdo(N),clave,retorna); 
+            a_buscarR(n_hijoderecho(N),clave,retorna);
         }
     }
 }
