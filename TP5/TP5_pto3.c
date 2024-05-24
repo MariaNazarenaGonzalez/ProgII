@@ -43,35 +43,31 @@ void a_cargarR(NodoArbol N,int pos,ArbolBinario a){
     if(val!=0){//si el valor no es 0(si se quiere cargar el nodo)
         NodoArbol N1;
         if(pos==0){N1 =a_establecer_raiz(a,te_crear(val));}//si el nodo a cargar es la raiz
-        else if(pos==1){N1=a_conectar_hd(a,N,te_crear(val));}//si el nodo a cargar es el derecho
         else if(pos==-1){N1=a_conectar_hi(a,N,te_crear(val));}//si el nodo a cargar es el izquierdo
+        else if(pos==1){N1=a_conectar_hd(a,N,te_crear(val));}//si el nodo a cargar es el derecho
         //llamadas recurcivas para seguir cargando tanto por iz como por der
-        a_cargarR(N1,1,a);
         a_cargarR(N1,-1,a);
+        a_cargarR(N1,1,a);
     }
 }
-
 ArbolBinario a_cargar(ArbolBinario a){
     //funcion a modo de mascara que llama a la recurciva
     //el nodo padre Nulo, la posicion en raiz, y el arbol a cargar
     a_cargarR(NULL,0,a);
     return a;
 }
-
 void a_mostrar_pre_ordenR(NodoArbol N){
     if(N==NULL){//si nodo nulo muestro un punto
         printf(". ");
     }else{//si lo muestro el dato y llamo a los hijos
         TipoElemento x=n_recuperar(N);
         printf("%i ",x->clave);
-        a_mostrar_pre_ordenR(n_hijoderecho(N));
         a_mostrar_pre_ordenR(n_hijoizquierdo(N));
+        a_mostrar_pre_ordenR(n_hijoderecho(N));
     }
 }
-
 void a_mostrar_pre_orden(ArbolBinario a){
     printf("Mostrar en pre_orden\n");
     a_mostrar_pre_ordenR(a_raiz(a));
     printf("\n");
 }
-
