@@ -102,8 +102,8 @@ void a_ej3_hijosR(NodoArbol NP, int clavepadre,Lista L){
             if(ND!=NULL){l_agregar(L,XD);}
             if(NI!=NULL){l_agregar(L,XI);}
         }else{
-            a_ej3_hijosR(n_hijoizquierdo(NP),clavepadre,L); 
             a_ej3_hijosR(n_hijoderecho(NP),clavepadre,L);
+            a_ej3_hijosR(n_hijoizquierdo(NP),clavepadre,L); 
         }
     }
 }
@@ -126,8 +126,8 @@ void a_ej3_hermanoR(NodoArbol N, int clave,int* hermano){
                 *hermano= x1->clave;
             }
         }else{
-            return a_ej3_hermanoR(n_hijoizquierdo(N),clave,hermano);
             return a_ej3_hermanoR(n_hijoderecho(N),clave,hermano);
+            return a_ej3_hermanoR(n_hijoizquierdo(N),clave,hermano);
         }
     }
 }
@@ -182,8 +182,8 @@ void a_buscarR(NodoArbol N, int clave,NodoArbol* retorna){
         if(x->clave==clave){
             *retorna =N;
         }else{
-            a_buscarR(n_hijoizquierdo(N),clave,retorna); 
             a_buscarR(n_hijoderecho(N),clave,retorna);
+            a_buscarR(n_hijoizquierdo(N),clave,retorna); 
         }
     }
 }
@@ -293,11 +293,30 @@ bool c_ej8_hojasmismonivel(ArbolBinario A);
 	Comparar las alturas de ambos árboles. Determinar la complejidad algorítmica.
  */
 // Primero llamamos para construir el AVL
-ArbolAVL a_ej9_construiravl(ArbolBinario A);
+void a_ej9_construiravlR(ArbolAVL AVL,NodoArbol N){
+    if(N!= NULL){
+        TipoElemento X=n_recuperar(N);
+        avl_insertar(AVL,X);
+        a_ej9_construiravlR(AVL,n_hijoizquierdo(N));
+        a_ej9_construiravlR(AVL,n_hijoderecho(N));
+    }
+}
+
+ArbolAVL a_ej9_construiravl(ArbolBinario A){
+    ArbolAVL AVL=avl_crear();
+    a_ej9_construiravlR(AVL,a_raiz(A));
+    return AVL;
+}
 
 // Luego con el resultado de la funcion anterior llamamos a una funcion para que nos retorne la diferencia de las alturas 
 // comparadas como Altura(ArbolBinario) - Altura(ArbolAVL).
-int a_ej9_diferenciaalturas(ArbolBinario A, ArbolAVL AVL);
+int a_ej9_diferenciaalturas(ArbolBinario A, ArbolAVL AVL){
+    int AltA=0;
+    int AltAVL=0;
+    a_ej3_alturaramaR(a_raiz(A),&AltA,0);
+    a_ej3_alturaramaR(avl_raiz(AVL),&AltAVL,0);
+    return AltA - AltAVL;
+}
 
 
 /**
