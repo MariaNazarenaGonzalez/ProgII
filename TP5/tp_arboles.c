@@ -319,23 +319,70 @@ int a_ej9_diferenciaalturas(ArbolBinario A, ArbolAVL AVL){
 }
 
 
-/**
-10.	Dada una serie de números generados al azar, cargar la misma serie en un árbol binario de búsqueda y en un árbol binario balanceado “AVL”.  
+/*10.	Dada una serie de números generados al azar, cargar la misma serie en un árbol binario de búsqueda y en un árbol binario balanceado “AVL”.  
 	Comparar la altura de ambos árboles.  
 	Repetir el proceso “n” veces. 
 	¿Qué puede concluir al respecto?
- */
-// Generamos una lista con la serie de numeros (unicos no repetidos)
-Lista a_ej10_generarlistaclaves(int cantidadclavesagenerar, int valorminimo, int valormaximo);
+// Generamos una lista con la serie de numeros (unicos no repetidos)*/
+Lista a_ej10_generarlistaclaves(int cantidadclavesagenerar, int valorminimo, int valormaximo){
+    int clave;
+    Lista Claves=l_crear();
+    while(cantidadclavesagenerar>0){
+        clave=rand () % (valormaximo-valorminimo+1) + valorminimo; 
+        if(l_buscar(Claves,clave)==NULL){
+            l_agregar(Claves,te_crear(clave));
+            cantidadclavesagenerar=cantidadclavesagenerar-1;
+        }
+    }
+    return Claves;
+}
 
 // Ahora se la paso a la funcion que crea los 2 arboles
-ArbolBinarioBusqueda a_ej10_crearABB(Lista L);
-ArbolAVL a_ej10_crearAVL(Lista L);
+ArbolBinarioBusqueda a_ej10_crearABB(Lista L){
+    Iterador i=iterador(L);
+    TipoElemento x;
+    ArbolBinarioBusqueda ABB=abb_crear();
+    while(hay_siguiente(i)){
+        x=siguiente(i);
+        abb_insertar(ABB,x);
+    }
+    return ABB;
+}
+ArbolAVL a_ej10_crearAVL(Lista L){
+    Iterador i=iterador(L);
+    TipoElemento x;
+    ArbolAVL AVL=avl_crear();
+    while(hay_siguiente(i)){
+        x=siguiente(i);
+        avl_insertar(AVL,x);
+    }
+    return AVL;
+}
 
 // Ahora llamos a la funcion que compara las alturas.  La comparacion es Altura(ABB) - Altura(AVL).
-int a_ej10_difalturas(ArbolBinarioBusqueda ABB, ArbolAVL AVL);
+
+int a_ej10_difalturas(ArbolBinarioBusqueda ABB, ArbolAVL AVL){
+    int AltABB=0;
+    int AltAVL=0;
+    a_ej3_alturaramaR(abb_raiz(ABB),&AltABB,0);
+    a_ej3_alturaramaR(avl_raiz(AVL),&AltAVL,0);
+    return AltAVL - AltABB;
+}
 
 // Este proceso se debera repetir N veces  (N se debera poder tomar por teclado).
 
 // LLamada general del proceso.  retorna una lista con todas las diferencias de las comparaciones.
-Lista a_ej10_comparacionarboles(int N_repeticiones, int valorminimo, int valormaximo, int cantidaclavesagenerar);
+Lista a_ej10_comparacionarboles(int N_repeticiones, int valorminimo, int valormaximo, int cantidaclavesagenerar){
+    Lista Comparacion=l_crear();int diferencia=0;int azar=1;
+    while(N_repeticiones>0){
+        srand(diferencia*N_repeticiones+azar);
+        Lista claves=a_ej10_generarlistaclaves(cantidaclavesagenerar, valorminimo,valormaximo);
+        ArbolBinarioBusqueda ABB= a_ej10_crearABB(claves);
+        ArbolAVL AVL= a_ej10_crearAVL(claves);
+        diferencia=a_ej10_difalturas(ABB, AVL);
+        l_agregar(Comparacion,te_crear(diferencia));
+        N_repeticiones=N_repeticiones-1;
+        azar=azar + 1;
+    }
+    return Comparacion;
+}
