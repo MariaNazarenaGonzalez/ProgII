@@ -1,5 +1,5 @@
 #include "arbol-binario-busqueda.h"
-#include "D:\Mario\Prog_2_2009\2024\TADs\Arboles\nodo.h"
+#include "nodo.h"
 
 static const int TAMANIO_MAXIMO = 100;
 
@@ -118,7 +118,7 @@ NodoArbol abb_eliminar_recursivo(NodoArbol root, int claveABorrar, bool *borre) 
     else if (claveABorrar > root->datos->clave)
         root->hd = abb_eliminar_recursivo(root->hd, claveABorrar, borre);
     else {
-        borre = true;
+        *borre = true;
         if (root->hi == NULL) {
             NodoArbol temp = root->hd;
             free(root);
